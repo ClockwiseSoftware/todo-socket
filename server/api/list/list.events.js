@@ -1,15 +1,15 @@
 /**
- * Thing model events
+ * List model events
  */
 
 'use strict';
 
 import {EventEmitter} from 'events';
-var Thing = require('./thing.model');
-var ThingEvents = new EventEmitter();
+var List = require('./list.model');
+var ListEvents = new EventEmitter();
 
 // Set max event listeners (0 == unlimited)
-ThingEvents.setMaxListeners(0);
+ListEvents.setMaxListeners(0);
 
 // Model events
 var events = {
@@ -20,14 +20,14 @@ var events = {
 // Register the event emitter to the model events
 for (var e in events) {
   var event = events[e];
-  Thing.schema.post(e, emitEvent(event));
+  List.schema.post(e, emitEvent(event));
 }
 
 function emitEvent(event) {
   return function(doc) {
-    ThingEvents.emit(event + ':' + doc._id, doc);
-    ThingEvents.emit(event, doc);
+    ListEvents.emit(event + ':' + doc._id, doc);
+    ListEvents.emit(event, doc);
   }
 }
 
-export default ThingEvents;
+export default ListEvents;

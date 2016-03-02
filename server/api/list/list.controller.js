@@ -1,16 +1,16 @@
 /**
  * Using Rails-like standard naming convention for endpoints.
- * GET     /api/things              ->  index
- * POST    /api/things              ->  create
- * GET     /api/things/:id          ->  show
- * PUT     /api/things/:id          ->  update
- * DELETE  /api/things/:id          ->  destroy
+ * GET     /api/lists              ->  index
+ * POST    /api/lists              ->  create
+ * GET     /api/lists/:id          ->  show
+ * PUT     /api/lists/:id          ->  update
+ * DELETE  /api/lists/:id          ->  destroy
  */
 
 'use strict';
 
 import _ from 'lodash';
-import Thing from './thing.model';
+import List from './list.model';
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -59,43 +59,43 @@ function handleError(res, statusCode) {
   };
 }
 
-// Gets a list of Things
+// Gets a list of Lists
 export function index(req, res) {
-  Thing.findAsync()
+  List.findAsync()
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
 
-// Gets a single Thing from the DB
+// Gets a single List from the DB
 export function show(req, res) {
-  Thing.findByIdAsync(req.params.id)
+  List.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
 
-// Creates a new Thing in the DB
+// Creates a new List in the DB
 export function create(req, res) {
-  Thing.createAsync(req.body)
+  List.createAsync(req.body)
     .then(respondWithResult(res, 201))
     .catch(handleError(res));
 }
 
-// Updates an existing Thing in the DB
+// Updates an existing List in the DB
 export function update(req, res) {
   if (req.body._id) {
     delete req.body._id;
   }
-  Thing.findByIdAsync(req.params.id)
+  List.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(saveUpdates(req.body))
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
 
-// Deletes a Thing from the DB
+// Deletes a List from the DB
 export function destroy(req, res) {
-  Thing.findByIdAsync(req.params.id)
+  List.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))
     .catch(handleError(res));
